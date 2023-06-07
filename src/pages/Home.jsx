@@ -1,29 +1,39 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { tokensContext } from "../provider";
 
 const Home = () => {
-	const [state, dispatch] = useContext(tokensContext);
+  const [state, dispatch] = useContext(tokensContext);
 
-	return (
-		<>
-			<h1>Home Page</h1>
+  const [people, setPeople] = useState([]);
 
-			{/* <section>
-				<h2>Posts</h2>
+  useEffect(() => {
+    const fetchPeople = async () => {
+      try {
+        const response = await fetch('https://swapi.dev/api/people/');
+        const data = await response.json();
+        setPeople(data.results);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-				{state.blogPosts.map((post, index) => (
-					<article key={index} className="post">
-						<h3>{post.title}</h3>
-						<div className="img-wrapper">
-							<img src={`img/${post.image}`} alt={post.title} />
-						</div>
-						<p>{post.description}</p>
-						<p>{post.date}</p>
-					</article>
-				))}
-			</section> */}
-		</>
-	);
+    fetchPeople();
+  }, []);
+
+  return (
+    <>
+      <h1>Home Page</h1>
+
+      <div>
+        <h1>Characters from Star Wars</h1>
+        <ul>
+          {people.map((person, index) => (
+            <li key={index}>{person.name}</li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 };
 
 export default Home;
