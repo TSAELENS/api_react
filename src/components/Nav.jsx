@@ -11,12 +11,12 @@ const Nav = () => {
 				<NavLink to="/" exact>
 					Auth
 				</NavLink>
-				{sessionStorage.getItem("Authorization") && (
-					<>
-						<NavLink to="/home">Home</NavLink>
-						<NavLink to="/post">POST</NavLink>
-					</>
-				)}
+				{/* {sessionStorage.getItem("Authorization") && (
+					<> */}
+				<NavLink to="/home">Home</NavLink>
+				<NavLink to="/post">POST</NavLink>
+				{/* </>
+				)} */}
 			</div>
 		</nav>
 	);

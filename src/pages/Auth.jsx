@@ -3,11 +3,11 @@ import { tokensContext } from "../provider";
 
 const Auth = () => {
 	const [state, dispatch] = useContext(tokensContext);
-	const [username, setUsername] = useState("");
+	const [mail, setMail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const handleUsernameChange = (e) => {
-		setUsername(e.target.value);
+	const handleMailChange = (e) => {
+		setMail(e.target.value);
 	};
 
 	const handlePasswordChange = (e) => {
@@ -17,15 +17,19 @@ const Auth = () => {
 	const handleLogin = (e) => {
 		e.preventDefault();
 
-		// Effectuez ici la logique d'authentification en utilisant les valeurs de `username` et `password`
-
-		// Exemple de requête d'authentification
-		if (username === "admin" && password === "password") {
-			// Authentification réussie, mettez à jour le contexte avec les informations d'authentification
-			dispatch({ type: "LOGIN", payload: { username } });
-		} else {
-			// Authentification échouée, affichez un message d'erreur ou effectuez d'autres actions
-			console.log("Identifiant ou mot de passe incorrect");
+		try {
+			fetch("http://localhost:3000/api/auth", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: {
+					mail: mail,
+					password: password,
+				},
+			});
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
@@ -33,10 +37,10 @@ const Auth = () => {
 		<>
 			<h1>Login</h1>
 
-			<form onSubmit={handleLogin}>
+			<form onSubmit={handleLogin} className="post">
 				<label>
-					Username:
-					<input type="text" value={username} onChange={handleUsernameChange} />
+					Mail:
+					<input type="text" value={mail} onChange={handleMailChange} />
 				</label>
 				<br />
 				<label>
